@@ -1,0 +1,32 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+
+
+<div class="row"> 
+    <p>Images from local</p>
+    @for (int i = 0; i < Model.Photos.Count; i++)
+    {
+        if (!string.IsNullOrEmpty(Model.Photos[i].PhotoURL))
+        {
+            <img src="@Model.Photos[i].PhotoURL" class="img-circle" style="width:200px; height:auto" asp-append-version="true" />
+        }
+    }
+</div>
+
+
+
+<div class="row mt-5">
+    <p>Images from database</p>
+    @for (int i = 0; i < Model.Photos.Count; i++)
+    {
+        if (Model.Photos[i].ImageContents != null)
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Photos[i].ImageContents)" asp-append-version="true" class="img-circle" style="width:200px;  height:auto">
+        }
+    }
+</div>

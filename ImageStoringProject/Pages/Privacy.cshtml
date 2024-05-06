@@ -1,0 +1,60 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Image Database";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-4">
+
+            <label>
+                <input type="radio" asp-for="StoreInDatabase" value="false" checked />
+                Store File Path in Database
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" asp-for="StoreInDatabase" value="true" />
+                Store File in Database
+            </label>
+        </div>
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-4">
+            <input type="file" name="imageFile" />
+            <input type="submit" value="Upload" />
+        </div>
+    </div>
+
+
+
+    <div class="row mt-5">
+        <p>Images from local</p>
+        @for (int i = 0; i < Model.Photos.Count; i++)
+        {
+            if (!string.IsNullOrEmpty(Model.Photos[i].PhotoURL))
+            {
+                <img src="@Model.Photos[i].PhotoURL" class="img-circle" style="width:200px; height:auto" asp-append-version="true" />
+            }
+        }
+    </div>
+
+
+
+    <div class="row mt-5">
+        <p>Images from database</p>
+        @for (int i = 0; i < Model.Photos.Count; i++)
+        {
+            if (Model.Photos[i].ImageContents != null)
+            {
+                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Photos[i].ImageContents)" asp-append-version="true" class="img-circle" style="width:200px;  height:auto">
+            }
+        }
+    </div>
+
+</form>
